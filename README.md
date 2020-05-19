@@ -3,9 +3,11 @@
 Build an API to classify traffic signs using Convolutional Neural Network (Deep Learning) 
 
 
-### Activate the virual environment
+### Create and activate the virual environment
 
 ```
+python3 -m venv venv
+
 source venv/bin/activate
 ```
 
@@ -14,6 +16,13 @@ source venv/bin/activate
 ```
 pip3 install -r requirements.txt
 ```
+
+### Get datasets
+
+Download from https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign
+
+In the root directory, create a folder call data and store the dataset inside of this folder. 
+
 
 ## Authors
 
