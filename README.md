@@ -26,7 +26,7 @@ In the root directory, create a folder call data and store the dataset inside of
 
 ## Authors
 
-* **Bao Nguyen** - https://github.com/btn6364
+**Bao Nguyen** - https://github.com/btn6364
 
 
 ## License
