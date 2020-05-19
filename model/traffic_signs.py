@@ -138,7 +138,7 @@ def main():
     test_model(X_test, y_test, model)
 
     #save the model
-    model.save("traffic_sign_classifier.h5")
+    model.save(os.path.join(BASE_PATH, "traffic_sign_classifier.h5"))
     
 if __name__ == "__main__":
     main()
