@@ -24,11 +24,8 @@ Download from https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-s
 In the root directory, create a folder call data and store the dataset inside of this folder. 
 
 
-## Authors
+### Authors
 
 **Bao Nguyen** - https://github.com/btn6364
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
