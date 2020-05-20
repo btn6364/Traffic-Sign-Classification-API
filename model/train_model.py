@@ -16,16 +16,22 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 
 BATCH_SIZE = 64
-EPOCHS = 15
+EPOCHS = 30
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 
 ####################################################
-# SETTING FOR GROWTH MEMORY ALLOCATION
+# SETTINGs
 ####################################################
 import tensorflow as tf
 gpus= tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
+import matplotlib
+matplotlib.use("Agg")
+
+####################################################
+# HELPER FUNCTIONS
+####################################################
 
 """
 Load images dataset and their labels
@@ -85,22 +91,19 @@ def build_model(X_train):
 """
 Plot the stat graph of the training. 
 """
-def stat_graph(history):
-    plt.figure(0)
-    plt.plot(history.history["accuracy"], label="training accuracy")
-    plt.plot(history.history["val_accuracy"], label="val accuracy")
-    plt.title("Accuracy")
-    plt.xlabel("epochs")
-    plt.ylabel("accuracy")
-    plt.legend()
-
-    plt.figure(1)
-    plt.plot(history.history["loss"], label="training loss")
-    plt.plot(history.history["val_loss"], label="val loss")
-    plt.title("loss")
-    plt.xlabel("epochs")
-    plt.ylabel("loss")
-    plt.legend()
+def stat_graph(H):
+    N = np.arange(0, EPOCHS)
+    plt.style.use("ggplot")
+    plt.figure()
+    plt.plot(N, H.history["loss"], label="train_loss")
+    plt.plot(N, H.history["val_loss"], label="val_loss")
+    plt.plot(N, H.history["accuracy"], label="train_acc")
+    plt.plot(N, H.history["val_accuracy"], label="val_acc")
+    plt.title("Training Loss and Accuracy on Dataset")
+    plt.xlabel("Epoch #")
+    plt.ylabel("Loss/Accuracy")
+    plt.legend(loc="lower left")
+    plt.savefig(os.path.join(BASE_PATH, "output/plot.png"))
 
 """
 Test the model
@@ -133,14 +136,14 @@ def main():
     model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
     history = model.fit(X_train, y_train, batch_size=64, epochs=EPOCHS, validation_data=(X_test, y_test))
 
-    #draw stat graph
-    stat_graph(history)
-
     #test the model
     test_model(X_test, y_test, model)
 
     #save the model
-    model.save(os.path.join(BASE_PATH, "traffic_sign_classifier.h5"))
+    model.save(os.path.join(BASE_PATH, "output/traffic_sign_classifier.h5"))
+
+    #draw stat graph
+    stat_graph(history)
     
 if __name__ == "__main__":
     main()
