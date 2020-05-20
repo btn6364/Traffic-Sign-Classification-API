@@ -16,7 +16,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ########################################################
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
-MODEL_PATH = os.path.join(BASE_PATH, "traffic_sign_classifier.h5") 
+MODEL_PATH = os.path.join(BASE_PATH, "output/traffic_sign_classifier.h5") 
 IMAGE_PATH = os.path.join(BASE_PATH, "testing_images")
 SIGNS_PATH = os.path.join(BASE_PATH, "../data/Signs.csv")
 
