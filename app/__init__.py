@@ -1,7 +1,37 @@
 from flask import Flask, request, jsonify
+from PIL import Image
+import numpy
+import os
+from keras.models import load_model
 
+##################################
+# CONSTANTS 
+##################################
+
+BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+
+
+####################################################
+# SETTING FOR GROWTH MEMORY ALLOCATION
+####################################################
+import tensorflow as tf
+gpus= tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
+
+
+##################################
+# CREATE AND APPLICATION
+##################################
 app = Flask(__name__)
 app.config["DEBUG"] = True
+
+
+##################################
+# LOAD THE MODEL
+##################################
+path = os.path.join(BASE_PATH, "../model/traffic_sign_classifier.h5")
+model = load_model(path)
+
 
 ##################################
 # ROUTE HANDLERS
