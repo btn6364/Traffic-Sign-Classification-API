@@ -80,6 +80,8 @@ def build_model(X_train):
     model.add(Dense(43, activation='softmax'))
     return model
 
+
+
 """
 Plot the stat graph of the training. 
 """
