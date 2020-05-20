@@ -23,8 +23,15 @@ pip3 install -r requirements.txt
 
 Download from https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign
 
-In the root directory, create a folder call data and store the dataset inside of this folder. 
+Store the dataset inside of the data folder. 
 
+
+### Manual testing the model
+
+Make sure to activate the virtual environment
+```
+python3 -m model.test_model
+```
 
 
 ### Run the application

@@ -40,17 +40,21 @@ def load_classes():
     return classes
 
 def classify(file_path, classes):
-    image = Image.open(file_path)
-    image = image.resize((30, 30))
-    image = numpy.expand_dims(image, axis=0)
-    image = numpy.array(image)
-    pred = model.predict_classes([image])[0]
-    sign = classes[pred + 1]
-    return sign
+    try:
+        image = Image.open(file_path)
+        image = image.resize((30, 30))
+        image = numpy.expand_dims(image, axis=0)
+        image = numpy.array(image)
+        pred = model.predict_classes([image])[0]
+        sign = classes[pred + 1]
+        return sign
+    except:
+        print("[ERROR]: Error when loading images")
 
 def classify_all_testing_images(classes):
     paths = os.listdir(IMAGE_PATH)
     for path in paths:
+        path = os.path.join(IMAGE_PATH, path)
         pred = classify(path, classes)
         print(f"[PREDICTED RESULT for {path}]: {pred}")
 
