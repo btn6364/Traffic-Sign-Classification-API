@@ -66,7 +66,7 @@ Build a model with layers
 """
 def build_model(X_train):
     model = Sequential()
-    model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=X_train.shape[1:]))
+    model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=X_train.shape[1:])) 
     model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu'))
     model.add(MaxPool2D(pool_size=(2, 2)))
     model.add(Dropout(rate=0.25))
