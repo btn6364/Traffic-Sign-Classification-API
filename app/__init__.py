@@ -42,9 +42,14 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/upload-image", methods=["GET", "POST"])
+@app.route("/history", methods=["GET"])
+def history():
+    return render_template("history.html")
+
+
+@app.route("/upload", methods=["GET", "POST"])
 def upload_image():
-    return ""
+    return render_template("upload.html")
 
 
 @app.errorhandler(404)
