@@ -25,6 +25,7 @@ Download from https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-s
 
 Store the dataset inside of the data folder. 
 
+
 ### Train a new model
 
 Make sure to activate the virtual environment
