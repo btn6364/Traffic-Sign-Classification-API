@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from PIL import Image
 import numpy
 import os
@@ -29,7 +29,7 @@ app.config["DEBUG"] = True
 ##################################
 # LOAD THE MODEL
 ##################################
-path = os.path.join(BASE_PATH, "../model/traffic_sign_classifier.h5")
+path = os.path.join(BASE_PATH, "../model/output/traffic_sign_classifier.h5")
 model = load_model(path)
 
 
@@ -41,9 +41,15 @@ model = load_model(path)
 def home():
     return "Welcome to home page!"
 
+
+@app.route("/upload-image", methods=["GET", "POST"])
+def upload_image():
+    return ""
+
+
 @app.errorhandler(404)
 def page_not_found(err):
-    return "<h1>404</h1><p>The resource could not be found.</p>", 404
+    return render_template("404.html")
 
 
 if __name__ == "__main__":
