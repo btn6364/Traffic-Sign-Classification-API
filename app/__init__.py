@@ -14,9 +14,9 @@ BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 ####################################################
 # SETTING FOR GROWTH MEMORY ALLOCATION
 ####################################################
-import tensorflow as tf
-gpus= tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(gpus[0], True)
+# import tensorflow as tf
+# gpus= tf.config.experimental.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
 ##################################
@@ -29,8 +29,8 @@ app.config["DEBUG"] = True
 ##################################
 # LOAD THE MODEL
 ##################################
-path = os.path.join(BASE_PATH, "../model/output/traffic_sign_classifier.h5")
-model = load_model(path)
+# path = os.path.join(BASE_PATH, "../model/output/traffic_sign_classifier.h5")
+# model = load_model(path)
 
 
 ##################################
@@ -39,7 +39,7 @@ model = load_model(path)
 
 @app.route("/", methods=["GET"])
 def home():
-    return "Welcome to home page!"
+    return render_template("home.html")
 
 
 @app.route("/upload-image", methods=["GET", "POST"])
