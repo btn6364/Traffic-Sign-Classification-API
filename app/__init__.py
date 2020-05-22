@@ -3,6 +3,7 @@ from PIL import Image
 import numpy
 import os
 from keras.models import load_model
+import keras
 
 ########################################################
 # PATHS
@@ -15,16 +16,20 @@ SIGNS_PATH = os.path.join(BASE_PATH, "../data/Signs.csv")
 # ####################################################
 # # SETTING FOR GROWTH MEMORY ALLOCATION
 # ####################################################
-# import tensorflow as tf
-# gpus= tf.config.experimental.list_physical_devices('GPU')
-# tf.config.experimental.set_memory_growth(gpus[0], True)
+import tensorflow as tf
+gpus= tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
 # ##################################
 # # LOAD THE MODEL
 # ##################################
-# model = load_model(MODEL_PATH)
+def auc(y_true, y_pred):
+    auc = tf.metrics.auc(y_true, y_pred)[1]
+    keras.backend.get_session().run(tf.local_variables_initializer())
+    return auc
 
+model = load_model(MODEL_PATH, custom_objects={"auc": auc})
 
 
 ##################################
@@ -49,8 +54,8 @@ def classify(file_path, classes):
         pred = model.predict_classes([image])[0]
         sign = classes[pred + 1]
         return sign
-    except:
-        print("[ERROR]: Error when loading images")
+    except Exception as e:
+        print(f"[ERROR]: {e}")
 
 
 ##################################
@@ -60,6 +65,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["IMAGE_UPLOADS"] = os.path.join(BASE_PATH, "uploads")
 app.secret_key = b'@\x93,Cby\xae\xf8\x83\xe3D\x06\x9e\x98\x8f\xa6'
+
 
 ##################################
 # ROUTE HANDLERS
@@ -80,7 +86,6 @@ def history():
 def upload_image():
     if request.method == "POST":
         if request.files:
-             #save the image to session
             image = request.files["image"]
             save_path = os.path.join(app.config["IMAGE_UPLOADS"], image.filename) 
             image.save(save_path)
@@ -91,11 +96,10 @@ def upload_image():
 
 @app.route("/upload-image/predict", methods=["GET"])
 def predict_image():
-    if "image" in session:
-        print(f"Image path is : {session['image']}")
-    else:
-        print("Cannot found image!")
-    return render_template("predict.html")
+    file_path = session["image"]
+    classes = load_classes()
+    pred_sign = classify(file_path, classes)
+    return render_template("predict.html", file_path=file_path, pred_sign=pred_sign)
 
 
 @app.errorhandler(404)
@@ -104,4 +108,4 @@ def page_not_found(err):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=False)
