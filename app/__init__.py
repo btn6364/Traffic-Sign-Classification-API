@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, session
 from PIL import Image
 import numpy
 import os
@@ -59,6 +59,7 @@ def classify(file_path, classes):
 app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["IMAGE_UPLOADS"] = os.path.join(BASE_PATH, "uploads")
+app.secret_key = b'@\x93,Cby\xae\xf8\x83\xe3D\x06\x9e\x98\x8f\xa6'
 
 ##################################
 # ROUTE HANDLERS
@@ -81,21 +82,25 @@ def upload_image():
         if request.files:
              #save the image to session
             image = request.files["image"]
-            image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
-            print("Image saved")
+            save_path = os.path.join(app.config["IMAGE_UPLOADS"], image.filename) 
+            image.save(save_path)
+            session["image"] = save_path
             return redirect("/upload-image/predict")
     return render_template("upload.html")
 
 
 @app.route("/upload-image/predict", methods=["GET"])
 def predict_image():
-
+    if "image" in session:
+        print(f"Image path is : {session['image']}")
+    else:
+        print("Cannot found image!")
     return render_template("predict.html")
 
 
 @app.errorhandler(404)
 def page_not_found(err):
-    return render_template("404.html")
+    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":
